@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🌱 Crop Disease Detection</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Diagnose</button>
+    </form>
+
+    {% if result %}
+    <div class="card">
+        <h2>{{ result.crop }} - {{ result.disease }}</h2>
+
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{ result.confidence }}%;"></div>
+        </div>
+
+        <p><strong>Confidence:</strong> {{ result.confidence }}%</p>
+        <p><strong>Pesticide:</strong> {{ result.pesticide }}</p>
+        <p><strong>Dosage:</strong> {{ result.dosage }} ml/L</p>
+        <p class="note">{{ result.notes }}</p>
+
+        {% if result.confidence < 40 %}
+        <p class="warning">⚠ Low confidence. Upload a clearer image.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
